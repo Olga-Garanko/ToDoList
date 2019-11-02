@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./src/scss/index.scss"],"names":[],"mappings":"AAAA,OAEI,SAAU","file":"index.css","sourcesContent":["body {\r\n  p {\r\n    color: red;\r\n  }\r\n}"],"sourceRoot":""}
