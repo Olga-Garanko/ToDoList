@@ -1,0 +1,93 @@
+.todos {
+  display: flex;
+}
+.todo {
+  border: 1px solid green;
+}
+.todo.done {
+  background-color: rgba($dark, 0.2);
+  position: relative;
+  &:after {
+    content: '';
+    height: 10px;
+    width: 10px;
+    border: 1px solid $dark;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: $light;
+  }
+  &:before {
+    content: '';
+    height: 5px;
+    width: 5px;
+    border-left: 1px solid $dark;
+    border-bottom: 1px solid $dark;
+    transform: rotate(-45deg);
+    position: absolute;
+    top: -4px;
+    right: -2px;
+    z-index: 2;
+  }
+}
+
+.todos {
+  @include flex(row, space-between, stretch, wrap);
+  &:after, &:before {
+    content: '';
+    width: calc(33% - calc(80px / 3));
+    height: 0;
+    order: 1;
+  }
+  .todo {
+    width: calc(33% - calc(80px / 3));
+  }
+}
+
+.todo {
+  margin-bottom: 30px;
+  border: 1px solid $dark;
+  padding: 20px 10px;
+  position: relative;
+  &__title {
+    font-weight: bold;
+    margin-bottom: 40px;
+  }
+  &__description {
+    font-weight: bold;
+    margin-bottom: 40px;
+  }
+  &__priority {
+    border-radius: 10px;
+    border: 1px dashed $dark;
+    display: inline-block;
+    padding: 3px 10px;
+  }
+  .btn {
+    position: absolute;
+    right: 10px;
+    bottom: 20px;
+  }
+}
+
+@media($tablet) {
+  .todos {
+    &:after, &:before {
+      width: calc(50% - calc(40px / 2));
+    }
+    .todo {
+      width: calc(50% - calc(40px / 2));
+    }
+  }
+}
+
+@media($phone) {
+  .todos {
+    &:after, &:before {
+      width: 100%;
+    }
+    .todo {
+      width: 100%;
+    }
+  }
+}

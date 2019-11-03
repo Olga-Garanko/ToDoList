@@ -1,5 +1,6 @@
-body {
-  p {
-    color: red;
-  }
-}
+@import './globals/variables.scss';
+@import './globals/mixins.scss';
+@import './globals/reset.scss';
+
+@import './todolist.scss';
+@import './todo.scss';

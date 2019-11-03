@@ -1,0 +1,37 @@
+.wrapper {
+  @include flex(column, flex-start, stretch, wrap);
+  min-height: 100vh;
+}
+.main {
+  flex-grow: 1;
+  padding: 10px;
+}
+.header {
+  padding: 10px;
+  border-bottom: 1px solid $dark;
+  font-weight: bold;
+}
+.footer {
+  padding: 10px;
+  border-top: 1px solid $dark;
+}
+.filters {
+  @include flex(row, flex-end, stretch, wrap);
+  margin-bottom: 30px;
+  .input {
+    margin-right: 10px;
+  }
+  .select {
+    margin-right: 10px;
+  }
+}
+.btn {
+  border-radius: 10px;
+  border: 1px solid $dark;
+  padding: 3px 10px;
+  display: inline-block;
+  line-height: 1.5em;
+}
+.input {
+  padding: 5px;
+}

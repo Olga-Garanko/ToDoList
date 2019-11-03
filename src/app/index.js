@@ -1,2 +1,2 @@
-import '../js/todolist';
+import '../js/ToDoList';
 import '../scss/index.scss';

@@ -1,13 +1,37 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
-    <title>Webpack App</title>
-  <link href="index.css" rel="stylesheet"><link href="index.css" rel="stylesheet"></head>
+    <meta charset='UTF-8'>
+    <title>TODOList App</title>
+  <link href='index.css' rel='stylesheet'></head>
   <body>
-  <div class="todo-list">
-  	jhbj
-  </div>
-  <script type="text/javascript" src="bundle.js"></script>
-  <script type="text/javascript" src="bundle.js"></script></body>
+    <div class="wrapper">
+      <header class='header'>TODOList</header>
+
+      <main class="main todo-list">
+
+        <div class='filters'>
+          <input type='text' class='input' placeholder='search'>
+          <select name='priority' id='priority' class='select'>
+            <option value='all'>all</option>
+            <option value='open'>open</option>
+            <option value='3'>done</option>
+          </select>
+          <select name='status' id='status' class='select'>
+            <option value='all'>all</option>
+            <option value='high'>high</option>
+            <option value='normal'>normal</option>
+            <option value='low'>low</option>
+          </select>
+          <button class='btn create-btn'>Create</button>      
+        </div>
+
+        <div class='todos'></div>
+
+      </main>
+
+      <footer class='footer'>Olga Garanko</footer>      
+    </div>
+  <script type='text/javascript' src='bundle.js'></script>
+  </body>
 </html>

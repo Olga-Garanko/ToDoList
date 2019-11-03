@@ -1,0 +1,78 @@
+html {
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+  line-height: 1.5em;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: rgba($dark, 0.5);
+  font-family: $mainFont, 'Arial', sans-serif;
+  background-color: $light;
+  font-size: 15px;
+  font-weight: 400;
+  min-width: 320px;
+  min-height: 500px;
+  line-height: 1.5em;
+  overflow-x: hidden;
+}
+
+@media ($tablet) {
+  body {
+    font-size: 14px;
+  }
+}
+
+a, input, textarea, button {
+  text-decoration: none;
+  font-family: $mainFont, 'Arial', sans-serif;
+  &:hover, &:focus {
+    outline: none;
+  }
+}
+
+button {
+  background: none;
+  border: 0 none;
+  cursor: pointer;
+}
+
+a {
+  color: $dark;
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+body * {
+  box-sizing: border-box;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  & li {
+    list-style: none;
+    margin: 0;
+    padding: 0;  
+  }
+}
+
+p {
+  padding: 0 0 20px 0;
+  margin: 0;
+}
+
+.clearfix:after {
+  display: block;
+  content: '';
+  clear: both;
+}
+
+img, iframe {
+  max-width: 100%;
+  height: auto;
+}

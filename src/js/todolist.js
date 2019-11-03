@@ -1,71 +1,78 @@
-class Slider {
-  constructor(slider) {
-    this.slider = slider;
-    this.slides = [...slider.querySelectorAll('.slider__item')];
-    this.dots = [...slider.querySelectorAll('.slider__dot')];
-    this.arrows = [...slider.querySelectorAll('.slider__arrow')];
-    this.countCurrent = slider.querySelector('.slider__num');
-    this.countAll = slider.querySelector('.slider__count');
-    this.slider.addEventListener('mouseenter', this.enterSlider.bind(this));
-    this.slider.addEventListener('mouseleave', this.leaveSlider.bind(this));
-    this.slider.addEventListener('touchstart', this.touchstart.bind(this));
-    document.addEventListener('touchend', this.touchend.bind(this));
-    this.length = this.slides.length - 1;
-    this.current = 0;
-    this.next = this.current + 1;
-    this.prev = this.length;
-    this.mobile = window.innerWidth < 768;
+let data = [
+  {
+    id: 1,
+    title: 'Learn JS',
+    description: 'Learn JS',
+    priority: 'high',
+    status: 'open',
+  },
+  {
+    id: 2,
+    title: 'Improve English',
+    description: 'Improve English',
+    priority: 'low',
+    status: 'done',
+  },
+  {
+    id: 3,
+    title: 'Travel a lot',
+    description: 'Travel a lot',
+    priority: 'normal',
+    status: 'open',
+  },
+];
+
+class ToDoList {
+  constructor(list) {
+    this.list = list;
+    this.todos = list.querySelector('.todos');
+    this.createBtn = list.querySelector('.create-btn');
+    this.createBtn.addEventListener('click', () => this.addItem());
     this.init();
   }
 
   init() {
-    if (this.length) {
-      this.slides[this.prev].classList.add('prev');
-      this.slides[this.next].classList.add('next');
-    }
-    if (!this.mobile && this.length) {
-      this.start();
-    }
-    this.slides[this.current].classList.add('active');
-    this.dots[this.current].classList.add('active');
-    if (this.countCurrent && this.countAll) {
-      this.countAll.innerText = this.slides.length < 10 ? `0${this.slides.length}` : `${this.slides.length}`;
-      this.countCurrent.innerText = this.current < 10 ? `0${this.current + 1}` : `${this.current + 1}`;
-    }
+    data.forEach((item) => {
+      this.renderItem(item);
+    });
   }
 
-  start() {
-    this.interval = setInterval(this.arrowsHandler.bind(this, 1), 4500);
+  renderItem(item = data[0]) {
+    const block = document.createElement('div');
+    this.todos.append(block);
+
+    block.classList.add('todo');
+    if (item.status === 'done') block.classList.add('done');
+    block.dataset.id = item.id;
+
+    block.innerHTML = `
+      <div class='todo__title'>${item.title}</div>
+      <div class='todo__description'>${item.description}</div>
+      <div class='todo__priority'>${item.priority}</div>
+      <button class='btn delete-btn'>Delete</button>`;
+    const deleteBtn = block.querySelector('.delete-btn');
+    deleteBtn.addEventListener('click', () => this.deleteItem(item.id));
   }
 
-  enterSlider() {
-    clearTimeout(this.interval);
+  addItem(item = data[0]) {
+    this.renderItem(item);
+    data.push(item);
+    console.log('add', data);
   }
 
-  leaveSlider() {
-    if (this.length) {
-      this.start();
-    }
-  }
-
-  touchstart(e) {
-    this.startPos = e.targetTouches[0].pageX;
-  }
-
-  touchend(e) {
-    if (this.startPos) {
-      this.endPos = e.changedTouches[0].pageX;
-      this.diff = this.startPos - this.endPos;
-      if (this.diff < 0) this.arrowsHandler(0);
-      else if (this.diff > 0) this.arrowsHandler(1);
-      this.startPos = null;
-    }
+  deleteItem(id) {
+    data = data.filter((item) => item.id !== id);
+    const deletedItem = [...this.todos.querySelectorAll('.todo')].find((i) => Number(i.dataset.id) === id);
+    deletedItem.remove();
+    console.log('delete', data);
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const sliders = [...document.querySelectorAll('.todo-list')];
-  if (sliders) {
-    sliders.forEach((item) => new Slider(item));
+  const todos = [...document.querySelectorAll('.todo-list')];
+  if (todos) {
+    todos.forEach((item) => new ToDoList(item));
   }
 });
+
+export default ToDoList;

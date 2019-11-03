@@ -1,0 +1,28 @@
+$mainFont: 'Proxima Nova';
+$titleFont: 'Gilroy';
+$baseSize: 15;
+
+$light: #ffffff;
+$dark: #313335;
+$accent: orange;
+$bg-light: #F8F8F8;
+
+$success: green;
+$error: red;
+
+
+$miniWidth: 320px;
+$phoneWidth: 768px;
+$tabletWidth: 1024px;
+$desktopWidth: 1280px;
+$fullWidth: 1440px;
+$fullMidWidth: 1600px;
+$fullHDWidth: 1920px;
+
+$mini: 'max-width: ' + ($miniWidth - 1);
+$phone: 'max-width: ' + ($phoneWidth - 1);
+$tablet: 'max-width: ' + ($tabletWidth - 1);
+$desktop: 'max-width: ' + ($desktopWidth - 1);
+$full: 'max-width: ' + ($fullWidth - 1);
+$fullMid: 'max-width: ' + ($fullMidWidth - 1);
+$fullHD: 'max-width: ' + ($fullHDWidth - 1);
