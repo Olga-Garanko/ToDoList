@@ -35,11 +35,11 @@ class ToDoList {
     this.todos = list.querySelector('.todos');
     this.createBtn = list.querySelector('.create-btn');
     this.createBtn.addEventListener('click', () => this.addItem());
-    this.filter = [...list.querySelectorAll('.select')];
-    this.filter.forEach((item) => item.addEventListener('change', (e) => this.filterItems(e)));
+    this.filters = [...list.querySelectorAll('.select')];
+    this.filters.forEach((item) => item.addEventListener('change', (e) => this.filterItems(e)));
     this.search = list.querySelector('.search');
     this.search.addEventListener('change', (e) => this.searchItems(e));
-    this.filters = { priority: 'all', status: 'all' };
+    this.filteredBy = { priority: 'all', status: 'all' };
     this.init();
   }
 
@@ -91,19 +91,23 @@ class ToDoList {
     doneItem.classList.add('done');
   }
 
-  filterItems(e) {
-    this.todos.innerHTML = '';
-    this.filters[e.target.name] = e.target.value;
-
-    const filteredData = data.filter((item) => {
+  filteredArray() {
+    return data.filter((item) => {
       let matched = true;
-      Object.entries(this.filters).forEach((filter) => {
+      Object.entries(this.filteredBy).forEach((filter) => {
         if (filter[1] !== 'all' && item[filter[0]] !== filter[1]) {
           matched = false;
         }
       });
       return matched;
     });
+  }
+
+  filterItems(e) {
+    this.todos.innerHTML = '';
+    this.filteredBy[e.target.name] = e.target.value;
+
+    const filteredData = this.filteredArray();
 
     filteredData.forEach((item) => {
       this.renderItem(item);
@@ -113,10 +117,10 @@ class ToDoList {
   searchItems(e) {
     this.todos.innerHTML = '';
     const searchStr = e.target.value;
-    const searchedData = data.filter((item) => {
+    const searchedData = this.filteredArray().filter((item) => {
       const title = item.title.toLowerCase();
       const description = item.description.toLowerCase();
-      return title.indexOf(searchStr) >= 0 || description.indexOf(searchStr) >= 0;
+      return title.includes(searchStr) || description.includes(searchStr);
     });
     searchedData.forEach((item) => {
       this.renderItem(item);
