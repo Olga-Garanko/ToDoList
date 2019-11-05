@@ -8,7 +8,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  color: rgba($dark, 0.5);
+  color: $dark;
   font-family: $mainFont, 'Arial', sans-serif;
   background-color: $light;
   font-size: 15px;

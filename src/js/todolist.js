@@ -67,11 +67,14 @@ class ToDoList {
       <div class='todo__title'>${item.title}</div>
       <div class='todo__description'>${item.description}</div>
       <div class='todo__priority'>${item.priority}</div>
-      <div class="btns">
-        <button class='btn done-btn'>${statusStr}</button>
-        <button class='btn edit-btn'>Edit</button>
-        <button class='btn delete-btn'>Delete</button>
-      </div>`;
+      <div class='todo__btn btn'>...</div>
+      <ul class="todo__btns">
+        <li class='done-btn'>${statusStr}</li>
+        <li class='edit-btn'>Edit</li>
+        <li class='delete-btn'>Delete</li>
+      </ul>`;
+    const todoBtn = block.querySelector('.todo__btn');
+    todoBtn.addEventListener('click', () => block.querySelector('.todo__btns').classList.toggle('active'));
     const deleteBtn = block.querySelector('.delete-btn');
     deleteBtn.addEventListener('click', () => this.deleteItem(item.id));
     const doneBtn = block.querySelector('.done-btn');
