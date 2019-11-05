@@ -40,6 +40,7 @@ class ToDoList {
     this.search = list.querySelector('.search');
     this.search.addEventListener('change', (e) => this.searchItems(e));
     this.filteredBy = { priority: 'all', status: 'all' };
+    this.searchedBy = '';
     this.init();
   }
 
@@ -100,29 +101,26 @@ class ToDoList {
         }
       });
       return matched;
-    });
+    })
+      .filter((item) => {
+        const title = item.title.toLowerCase();
+        const description = item.description.toLowerCase();
+        return title.includes(this.searchedBy) || description.includes(this.searchedBy);
+      });
   }
 
   filterItems(e) {
     this.todos.innerHTML = '';
     this.filteredBy[e.target.name] = e.target.value;
-
-    const filteredData = this.filteredArray();
-
-    filteredData.forEach((item) => {
+    this.filteredArray().forEach((item) => {
       this.renderItem(item);
     });
   }
 
   searchItems(e) {
     this.todos.innerHTML = '';
-    const searchStr = e.target.value;
-    const searchedData = this.filteredArray().filter((item) => {
-      const title = item.title.toLowerCase();
-      const description = item.description.toLowerCase();
-      return title.includes(searchStr) || description.includes(searchStr);
-    });
-    searchedData.forEach((item) => {
+    this.searchedBy = e.target.value;
+    this.filteredArray().forEach((item) => {
       this.renderItem(item);
     });
   }
