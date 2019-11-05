@@ -1,4 +1,4 @@
-let data = [
+const data = [
   {
     id: 1,
     title: 'Learn JS',
@@ -41,21 +41,26 @@ class ToDoList {
     this.search.addEventListener('change', (e) => this.searchItems(e));
     this.filteredBy = { priority: 'all', status: 'all' };
     this.searchedBy = '';
+    this.data = data;
     this.init();
   }
 
   init() {
-    data.forEach((item) => {
+    this.data.forEach((item) => {
       this.renderItem(item);
     });
   }
 
-  renderItem(item = data[0]) {
+  renderItem(item = this.data[0]) {
     const block = document.createElement('div');
     this.todos.append(block);
 
     block.classList.add('todo');
-    if (item.status === 'done') block.classList.add('done');
+    let statusStr = 'Done';
+    if (item.status === 'done') {
+      block.classList.add('done');
+      statusStr = 'Undone';
+    }
     block.dataset.id = item.id;
 
     block.innerHTML = `
@@ -63,7 +68,7 @@ class ToDoList {
       <div class='todo__description'>${item.description}</div>
       <div class='todo__priority'>${item.priority}</div>
       <div class="btns">
-        <button class='btn done-btn'>Done</button>
+        <button class='btn done-btn'>${statusStr}</button>
         <button class='btn edit-btn'>Edit</button>
         <button class='btn delete-btn'>Delete</button>
       </div>`;
@@ -75,25 +80,35 @@ class ToDoList {
     editBtn.addEventListener('click', () => this.editItem(item.id));
   }
 
-  addItem(item = data[0]) {
+  addItem(item = this.data[0]) {
     this.renderItem(item);
-    data.push(item);
+    this.data.push(item);
   }
 
   deleteItem(id) {
-    data = data.filter((item) => item.id !== id);
+    this.data = this.data.filter((item) => item.id !== id);
     const deletedItem = [...this.todos.querySelectorAll('.todo')].find((i) => Number(i.dataset.id) === id);
     deletedItem.remove();
   }
 
   changeStatus(id) {
-    data.find((item) => item.id === Number(id)).status = 'done';
+    const currentItem = this.data.find((item) => item.id === Number(id));
+    const currentStatus = currentItem.status;
+    this.data.find((item) => item.id === Number(id)).status = currentStatus === 'done' ? 'open' : 'done';
+
     const doneItem = [...this.todos.querySelectorAll('.todo')].find((i) => Number(i.dataset.id) === id);
-    doneItem.classList.add('done');
+    doneItem.classList.toggle('done');
+    const doneBtn = doneItem.querySelector('.done-btn');
+    doneBtn.innerHTML = currentItem.status === 'done' ? 'Undone' : 'Done';
+
+    this.todos.innerHTML = '';
+    this.filteredArray().forEach((item) => {
+      this.renderItem(item);
+    });
   }
 
   filteredArray() {
-    return data.filter((item) => {
+    return this.data.filter((item) => {
       let matched = true;
       Object.entries(this.filteredBy).forEach((filter) => {
         if (filter[1] !== 'all' && item[filter[0]] !== filter[1]) {
