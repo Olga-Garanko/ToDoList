@@ -1,4 +1,4 @@
-const data = [
+let data = [
   {
     id: 1,
     title: 'Learn JS',
@@ -41,17 +41,16 @@ class ToDoList {
     this.search.addEventListener('change', (e) => this.searchItems(e));
     this.filteredBy = { priority: 'all', status: 'all' };
     this.searchedBy = '';
-    this.data = data;
     this.init();
   }
 
   init() {
-    this.data.forEach((item) => {
+    data.forEach((item) => {
       this.renderItem(item);
     });
   }
 
-  renderItem(item = this.data[0]) {
+  renderItem(item = data[0]) {
     const block = document.createElement('div');
     this.todos.append(block);
 
@@ -83,21 +82,21 @@ class ToDoList {
     editBtn.addEventListener('click', () => this.editItem(item.id));
   }
 
-  addItem(item = this.data[0]) {
+  addItem(item = data[0]) {
     this.renderItem(item);
-    this.data.push(item);
+    data.push(item);
   }
 
   deleteItem(id) {
-    this.data = this.data.filter((item) => item.id !== id);
+    data = data.filter((item) => item.id !== id);
     const deletedItem = [...this.todos.querySelectorAll('.todo')].find((i) => Number(i.dataset.id) === id);
     deletedItem.remove();
   }
 
   changeStatus(id) {
-    const currentItem = this.data.find((item) => item.id === Number(id));
+    const currentItem = data.find((item) => item.id === Number(id));
     const currentStatus = currentItem.status;
-    this.data.find((item) => item.id === Number(id)).status = currentStatus === 'done' ? 'open' : 'done';
+    data.find((item) => item.id === Number(id)).status = currentStatus === 'done' ? 'open' : 'done';
 
     const doneItem = [...this.todos.querySelectorAll('.todo')].find((i) => Number(i.dataset.id) === id);
     doneItem.classList.toggle('done');
@@ -111,7 +110,7 @@ class ToDoList {
   }
 
   filteredArray() {
-    return this.data.filter((item) => {
+    return data.filter((item) => {
       let matched = true;
       Object.entries(this.filteredBy).forEach((filter) => {
         if (filter[1] !== 'all' && item[filter[0]] !== filter[1]) {
@@ -146,9 +145,7 @@ class ToDoList {
 
 document.addEventListener('DOMContentLoaded', () => {
   const todos = [...document.querySelectorAll('.todo-list')];
-  if (todos) {
-    todos.forEach((item) => new ToDoList(item));
-  }
+  todos.forEach((item) => new ToDoList(item));
 });
 
 export default ToDoList;

@@ -25,9 +25,10 @@ body {
   }
 }
 
-a, input, textarea, button {
+input, textarea, button {
   text-decoration: none;
   font-family: $mainFont, 'Arial', sans-serif;
+  max-width: 100%;
   &:hover, &:focus {
     outline: none;
   }
@@ -42,8 +43,10 @@ button {
 a {
   color: $dark;
   text-decoration: none;
-  &:hover {
+  font-family: $mainFont, 'Arial', sans-serif;
+  &:hover, &:focus {
     text-decoration: none;
+    outline: none;
   }
 }
 
