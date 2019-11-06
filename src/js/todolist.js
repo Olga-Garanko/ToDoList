@@ -1,4 +1,4 @@
-let data = [
+const data = [
   {
     id: 1,
     title: 'Learn JS',
@@ -31,26 +31,48 @@ let data = [
 
 class ToDoList {
   constructor(list) {
+    this.data = data;
     this.list = list;
     this.todos = list.querySelector('.todos');
+    this.currentId = null;
+
     this.createBtn = list.querySelector('.create-btn');
     this.createBtn.addEventListener('click', () => this.addItem());
-    this.filters = [...list.querySelectorAll('.select')];
+    this.filtersBlock = list.querySelector('.filters');
+    this.filters = [...this.filtersBlock.querySelectorAll('.select')];
     this.filters.forEach((item) => item.addEventListener('change', (e) => this.filterItems(e)));
     this.search = list.querySelector('.search');
     this.search.addEventListener('change', (e) => this.searchItems(e));
     this.filteredBy = { priority: 'all', status: 'all' };
     this.searchedBy = '';
+
+    this.popup = list.querySelector('.popup');
+    this.title = this.popup.querySelector('#form-title');
+    this.description = this.popup.querySelector('#form-description');
+    this.priority = this.popup.querySelector('#form-priority');
+
+    this.closeBtn = this.popup.querySelector('.popup__close');
+    this.closeBtn.addEventListener('click', () => this.closePopup());
+    this.cancelBtn = this.popup.querySelector('.cancel-btn');
+    this.cancelBtn.addEventListener('click', () => this.closePopup());
+    this.okBtn = this.popup.querySelector('.ok-btn');
+    this.okBtn.addEventListener('click', () => this.updateItem());
+
     this.init();
   }
 
   init() {
-    data.forEach((item) => {
+    this.render();
+  }
+
+  render() {
+    this.todos.innerHTML = '';
+    this.filteredArray().forEach((item) => {
       this.renderItem(item);
     });
   }
 
-  renderItem(item = data[0]) {
+  renderItem(item = this.data[0]) {
     const block = document.createElement('div');
     this.todos.append(block);
 
@@ -82,35 +104,47 @@ class ToDoList {
     editBtn.addEventListener('click', () => this.editItem(item.id));
   }
 
-  addItem(item = data[0]) {
+  addItem(item = this.data[0]) {
     this.renderItem(item);
-    data.push(item);
+    this.data.push(item);
+  }
+
+  updateItem() {
+    const id = this.currentId;
+    this.data.find((item) => item.id === id).title = this.title.value;
+    this.data.find((item) => item.id === id).description = this.description.value;
+    this.data.find((item) => item.id === id).priority = this.priority.value;
+    this.closePopup();
+    this.render();
+  }
+
+  editItem(id) {
+    this.openPopup(id);
+    const todoBtn = [...this.list.querySelectorAll('.todo__btns')];
+    todoBtn.filter((item) => item.classList.contains('active')).forEach((btn) => btn.classList.remove('active'));
   }
 
   deleteItem(id) {
-    data = data.filter((item) => item.id !== id);
+    this.data = this.data.filter((item) => item.id !== id);
     const deletedItem = [...this.todos.querySelectorAll('.todo')].find((i) => Number(i.dataset.id) === id);
     deletedItem.remove();
   }
 
   changeStatus(id) {
-    const currentItem = data.find((item) => item.id === Number(id));
+    const currentItem = this.data.find((item) => item.id === Number(id));
     const currentStatus = currentItem.status;
-    data.find((item) => item.id === Number(id)).status = currentStatus === 'done' ? 'open' : 'done';
+    this.data.find((item) => item.id === Number(id)).status = currentStatus === 'done' ? 'open' : 'done';
 
     const doneItem = [...this.todos.querySelectorAll('.todo')].find((i) => Number(i.dataset.id) === id);
     doneItem.classList.toggle('done');
     const doneBtn = doneItem.querySelector('.done-btn');
     doneBtn.innerHTML = currentItem.status === 'done' ? 'Undone' : 'Done';
 
-    this.todos.innerHTML = '';
-    this.filteredArray().forEach((item) => {
-      this.renderItem(item);
-    });
+    this.render();
   }
 
   filteredArray() {
-    return data.filter((item) => {
+    return this.data.filter((item) => {
       let matched = true;
       Object.entries(this.filteredBy).forEach((filter) => {
         if (filter[1] !== 'all' && item[filter[0]] !== filter[1]) {
@@ -135,11 +169,26 @@ class ToDoList {
   }
 
   searchItems(e) {
-    this.todos.innerHTML = '';
     this.searchedBy = e.target.value;
-    this.filteredArray().forEach((item) => {
-      this.renderItem(item);
-    });
+    this.render();
+  }
+
+  openPopup(id) {
+    if (id) {
+      this.currentId = id;
+      const title = this.popup.querySelector('#form-title');
+      const description = this.popup.querySelector('#form-description');
+      const priority = this.popup.querySelector('#form-priority');
+      const todo = this.data.find((item) => item.id === id);
+      title.value = todo.title;
+      description.value = todo.description;
+      priority.value = todo.priority;
+    }
+    this.popup.classList.add('open');
+  }
+
+  closePopup() {
+    this.popup.classList.remove('open');
   }
 }
 

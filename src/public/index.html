@@ -27,38 +27,38 @@
         </div>
 
         <div class='todos'></div>
-
+        
+        <div class="popup">
+          <span class="popup__close">x</span>
+          <div class="popup__content">
+            <div class="popup__item">
+              <label for="form-title">Title</label>
+              <input type="text" class="input" id="form-title" name="form-title" placeholder="Title">
+            </div>
+            <div class="popup__item">
+              <label for="form-description">Description</label>
+              <textarea class="textarea" name="form-description" id="form-description" cols="30" rows="10">Description</textarea>
+            </div>
+            <div class="popup__item">
+              <label for="form-priority">Priority</label>
+              <select name='form-priority' id='form-priority' class='select'>
+                <option value='all'>all</option>
+                <option value='high'>high</option>
+                <option value='normal'>normal</option>
+                <option value='low'>low</option>
+              </select>
+            </div>
+            <div class="popup__btns">
+              <button class="btn cancel-btn">Cansel</button>
+              <button class="btn ok-btn">Ok</button>
+            </div>
+          </div>
+        </div>
       </main>
 
       <footer class='footer'>Olga Garanko</footer>      
     </div>
     <div class="overflow"></div>
-    <div class="popup">
-      <span class="popup__close">x</span>
-      <div class="popup__content">
-        <div class="popup__item">
-          <label for="form-title">Title</label>
-          <input type="text" class="input" id="form-title" name="form-title" placeholder="Title">
-        </div>
-        <div class="popup__item">
-          <label for="form-description">Description</label>
-          <textarea class="textarea" name="form-description" id="form-description" cols="30" rows="10">Description</textarea>
-        </div>
-        <div class="popup__item">
-          <label for="form-priority">Priority</label>
-          <select name='form-priority' id='form-priority' class='select'>
-            <option value='all'>all</option>
-            <option value='high'>high</option>
-            <option value='normal'>normal</option>
-            <option value='low'>low</option>
-          </select>
-        </div>
-        <div class="popup__btns">
-          <button class="btn cancel-btn">Cansel</button>
-          <button class="btn ok-btn">Ok</button>
-        </div>
-      </div>
-    </div>
   <script type='text/javascript' src='bundle.js'></script>
   </body>
 </html>
