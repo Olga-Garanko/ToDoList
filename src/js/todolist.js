@@ -37,7 +37,7 @@ class ToDoList {
     this.currentId = null;
 
     this.createBtn = list.querySelector('.create-btn');
-    this.createBtn.addEventListener('click', () => this.addItem());
+    this.createBtn.addEventListener('click', () => this.openPopup());
     this.filtersBlock = list.querySelector('.filters');
     this.filters = [...this.filtersBlock.querySelectorAll('.select')];
     this.filters.forEach((item) => item.addEventListener('change', (e) => this.filterItems(e)));
@@ -104,16 +104,22 @@ class ToDoList {
     editBtn.addEventListener('click', () => this.editItem(item.id));
   }
 
-  addItem(item = this.data[0]) {
-    this.renderItem(item);
-    this.data.push(item);
-  }
-
   updateItem() {
     const id = this.currentId;
-    this.data.find((item) => item.id === id).title = this.title.value;
-    this.data.find((item) => item.id === id).description = this.description.value;
-    this.data.find((item) => item.id === id).priority = this.priority.value;
+    if (this.data.find((item) => item.id === id)) {
+      this.data.find((item) => item.id === id).title = this.title.value;
+      this.data.find((item) => item.id === id).description = this.description.value;
+      this.data.find((item) => item.id === id).priority = this.priority.value;
+    } else {
+      const newItem = {
+        id: this.currentId,
+        title: this.title.value,
+        description: this.description.value,
+        priority: this.priority.value,
+        status: 'open',
+      };
+      this.data.push(newItem);
+    }
     this.closePopup();
     this.render();
   }
@@ -183,6 +189,10 @@ class ToDoList {
       title.value = todo.title;
       description.value = todo.description;
       priority.value = todo.priority;
+    } else {
+      const ids = this.data.map((i) => i.id);
+      const idGen = Math.max(...ids) + 1;
+      this.currentId = idGen;
     }
     this.popup.classList.add('open');
   }
