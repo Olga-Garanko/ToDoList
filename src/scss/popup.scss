@@ -37,6 +37,9 @@
     width: 100%;
   }
 }
+.popup.open {
+  display: block;
+}
 .overflow {
   position: fixed;
   top: 0;
